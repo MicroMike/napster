@@ -2,6 +2,7 @@ import React from 'react';
 import Player from './Player';
 import GenreCalls from '../Models/GenreCalls';
 import TrackCalls from '../Models/TrackCalls';
+import AccountCall from '../Models/AccountCall';
 
 let Napster;
 
@@ -22,20 +23,29 @@ export default class Genre extends React.Component {
       currentTrackId: "",
       repeat: false,
       autoplay: true,
+      del: false
     };
   }
 
   componentDidMount() {
     this.loadGenres(this.props.token);
     Napster = window.Napster;
+    AccountCall.getAccount(this.props.token)
+      .then(account => {
+        console.log(account.isCurrentSubscriptionPayable)
+        this.setState({ del: !account.isCurrentSubscriptionPayable });
+      })
   }
 
   loadGenres(token) {
-    const promise = GenreCalls.getGenres(token)
-    promise
-      .then(values => {
-        console.log(values)
-        this.setState({ genres: values });
+    GenreCalls.getGenres(token)
+      .then(album => {
+        console.log(album)
+        TrackCalls.getTracks(token, album.links.tracks.href).then(tracks => {
+          if (this.state.tracks !== tracks) {
+            this.setState({ tracks });
+          }
+        })
       })
   }
 
@@ -180,6 +190,7 @@ export default class Genre extends React.Component {
           {!this.state.isShowing && (<div align="center" id="track">{trackList}</div>)}
         </div>
         <div id="wide">
+          {this.state.del && <div id="del">DEL</div>}
           <h1 className="header">WELCOME</h1>
           <h2 className="message">Select any genre to start listening!</h2>
           <br />
