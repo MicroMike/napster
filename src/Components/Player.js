@@ -54,13 +54,13 @@ export default class Player extends React.Component {
 
   nextPrev(cmd, track) {
     if (track.type === "track") {
-      const index = this.props.queue.map(e => e.id).indexOf(track.id);
+      let index = this.props.queue.map(e => e.id).indexOf(track.id);
       if (cmd === "next") {
-        if (index < this.props.queue.length - 1) {
-          this.props.songMovement(this.props.queue[index + 1]);
+        if (this.props.queue[++index]) {
+          this.props.songMovement(this.props.queue[index]);
           this.props.isPlaying(true);
           this.props.currentTrack(track.id);
-          Napster.player.play(this.props.queue[index + 1].id);
+          Napster.player.play(this.props.queue[index].id);
         } else {
           this.props.songMovement(this.props.queue[0]);
           this.props.isPlaying(true);
