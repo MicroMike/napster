@@ -22,7 +22,7 @@ export default class Genre extends React.Component {
       totalTime: 0,
       currentTrackId: "",
       repeat: false,
-      autoplay: true,
+      autoplay: false,
       del: false
     };
   }
