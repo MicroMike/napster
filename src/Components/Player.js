@@ -56,7 +56,7 @@ export default class Player extends React.Component {
     if (track.type === "track") {
       const index = this.props.queue.map(e => e.id).indexOf(track.id);
       if (cmd === "next") {
-        if (index < this.props.queue.length) {
+        if (index < this.props.queue.length - 1) {
           this.props.songMovement(this.props.queue[index + 1]);
           this.props.isPlaying(true);
           this.props.currentTrack(track.id);
