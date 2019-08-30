@@ -10,10 +10,14 @@ const rand = (max, min) => {
   return Math.floor(Math.random() * Math.floor(max) + (typeof min !== 'undefined' ? min : 0));
 }
 
+let rand1
+let rand2
+
 export default class Genre extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      albums: [],
       genres: [],
       tracks: [],
       queue: [],
@@ -44,9 +48,9 @@ export default class Genre extends React.Component {
   loadGenres(token) {
     GenreCalls.getGenres(token)
       .then(albums => {
-        console.log(albums)
-        const rand1 = rand(albums.length)
-        let rand2
+        this.setState({ albums });
+
+        rand1 = rand(albums.length)
 
         while (!rand2 || rand2 === rand1) {
           rand2 = rand(albums.length)
@@ -62,6 +66,14 @@ export default class Genre extends React.Component {
   }
 
   chooseTrackList(token, url) {
+    rand2 = rand1
+
+    while (rand2 === rand1) {
+      rand1 = rand(this.state.albums.length)
+    }
+
+    this.setState({ genres: [this.state.albums[rand1]] });
+
     return TrackCalls.getTracks(token, url)
       .then(tracks => {
         if (this.state.tracks !== tracks) {
