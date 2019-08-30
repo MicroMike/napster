@@ -13,7 +13,7 @@ GenreCalls.getGenres = function getGenres(access_token) {
   const promises = []
 
   for (let aId of ids) {
-    const url = "https://api.napster.com/v2.2/albums/Alb." + ids[aId];
+    const url = "https://api.napster.com/v2.2/albums/Alb." + aId;
 
     promises.push(new Promise(r => {
       fetch(url, {
