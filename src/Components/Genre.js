@@ -6,11 +6,15 @@ import AccountCall from '../Models/AccountCall';
 
 let Napster;
 
+const rand = (max, min) => {
+  return Math.floor(Math.random() * Math.floor(max) + (typeof min !== 'undefined' ? min : 0));
+}
+
 export default class Genre extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      genres: [],
+      albums: [],
       tracks: [],
       queue: [],
       queueHolder: [],
@@ -39,9 +43,10 @@ export default class Genre extends React.Component {
 
   loadGenres(token) {
     GenreCalls.getGenres(token)
-      .then(album => {
-        console.log(album)
-        TrackCalls.getTracks(token, album.links.tracks.href).then(tracks => {
+      .then(albums => {
+        console.log(albums)
+        this.setState({ albums });
+        TrackCalls.getTracks(token, albums[rand(albums.length)].links.tracks.href).then(tracks => {
           if (this.state.tracks !== tracks) {
             this.setState({ tracks });
           }
@@ -133,9 +138,9 @@ export default class Genre extends React.Component {
   }
 
   render() {
-    const genreList = this.state.genres.map(genre => (
-      <div role="button" tabIndex={0} className="genre-btn" key={genre.id} onClick={() => { this.chooseTrackList(this.props.token, genre.links.tracks.href); }} onKeyPress={this.handleKeyPress}>
-        <h3>{genre.name.toUpperCase()}</h3>
+    const genreList = this.state.albums.map(album => (
+      <div role="button" tabIndex={0} className="genre-btn" key={album.id} onClick={() => { this.chooseTrackList(this.props.token, album.links.tracks.href); }} onKeyPress={this.handleKeyPress}>
+        <h3>{album.name.toUpperCase()}</h3>
       </div>
     ));
 
