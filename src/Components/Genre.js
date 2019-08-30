@@ -14,7 +14,7 @@ export default class Genre extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      albums: [],
+      genres: [],
       tracks: [],
       queue: [],
       queueHolder: [],
@@ -45,7 +45,7 @@ export default class Genre extends React.Component {
     GenreCalls.getGenres(token)
       .then(albums => {
         console.log(albums)
-        this.setState({ albums });
+        this.setState({ genres: albums });
         TrackCalls.getTracks(token, albums[rand(albums.length)].links.tracks.href).then(tracks => {
           if (this.state.tracks !== tracks) {
             this.setState({ tracks });
@@ -138,9 +138,9 @@ export default class Genre extends React.Component {
   }
 
   render() {
-    const genreList = this.state.albums.map(album => (
-      <div role="button" tabIndex={0} className="genre-btn" key={album.id} onClick={() => { this.chooseTrackList(this.props.token, album.links.tracks.href); }} onKeyPress={this.handleKeyPress}>
-        <h3>{album.name.toUpperCase()}</h3>
+    const genreList = this.state.genres.map(genre => (
+      <div role="button" tabIndex={0} className="genre-btn" key={genre.id} onClick={() => { this.chooseTrackList(this.props.token, genre.links.tracks.href); }} onKeyPress={this.handleKeyPress}>
+        <h3>{genre.name.toUpperCase()}</h3>
       </div>
     ));
 
