@@ -45,8 +45,15 @@ export default class Genre extends React.Component {
     GenreCalls.getGenres(token)
       .then(albums => {
         console.log(albums)
-        this.setState({ genres: albums });
-        TrackCalls.getTracks(token, albums[rand(albums.length)].links.tracks.href).then(tracks => {
+        const rand1 = rand(albums.length)
+        let rand2
+
+        while (!rand2 || rand2 === rand1) {
+          rand2 = rand(albums.length)
+        }
+
+        this.setState({ genres: [albums[rand1]] });
+        TrackCalls.getTracks(token, albums[rand2].links.tracks.href).then(tracks => {
           if (this.state.tracks !== tracks) {
             this.setState({ tracks });
           }
