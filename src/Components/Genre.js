@@ -105,6 +105,7 @@ export default class Genre extends React.Component {
     this.setState({ playing: cmd });
     if (cmd === true) {
       Napster.player.on('playtimer', e => {
+        console.log(e)
         this.setState({
           currentTime: e.data.currentTime,
           totalTime: e.data.totalTime
