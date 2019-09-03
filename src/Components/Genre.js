@@ -116,17 +116,8 @@ export default class Genre extends React.Component {
           }
         }
         if (this.state.autoplay) {
-          if (Math.floor(this.state.currentTime) === this.state.totalTime) {
-            const index = this.state.queue.map(q => q.id).indexOf(this.state.selectedTrack.id);
-            if (index !== 9) {
-              this.songMovement(this.state.queue[index + 1]);
-              this.currentTrack(this.state.selectedTrack.id);
-              Napster.player.play(this.state.queue[index + 1].id);
-            } else {
-              this.songMovement(this.state.queue[0]);
-              this.currentTrack(this.state.selectedTrack.id);
-              Napster.player.play(this.state.queue[0].id);
-            }
+          if (Math.floor(this.state.currentTime) > 31 + rand(10)) {
+            Napster.player.play(this.state.tracks[rand(this.state.tracks.length)].id);
           }
         }
       });
