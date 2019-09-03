@@ -179,6 +179,7 @@ export default class Genre extends React.Component {
         <div id="narrow">
           <Player
             selectedTrack={this.state.selectedTrack}
+            tracks={this.state.tracks}
             playing={this.state.playing}
             shuffle={this.state.shuffle}
             updateQueue={this.updateQueue}

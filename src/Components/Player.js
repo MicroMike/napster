@@ -4,6 +4,10 @@ import 'font-awesome/css/font-awesome.min.css';
 
 let Napster;
 
+const rand = (max, min) => {
+  return Math.floor(Math.random() * Math.floor(max) + (typeof min !== 'undefined' ? min : 0));
+}
+
 export default class Player extends React.Component {
   constructor(props) {
     super(props);
@@ -56,17 +60,7 @@ export default class Player extends React.Component {
     if (track.type === "track") {
       let index = this.props.queue.map(e => e.id).indexOf(track.id);
       if (cmd === "next") {
-        if (this.props.queue[++index]) {
-          this.props.songMovement(this.props.queue[index]);
-          this.props.isPlaying(true);
-          this.props.currentTrack(track.id);
-          Napster.player.play(this.props.queue[index].id);
-        } else {
-          this.props.songMovement(this.props.queue[0]);
-          this.props.isPlaying(true);
-          this.props.currentTrack(track.id);
-          Napster.player.play(this.props.queue[0].id);
-        }
+        Napster.player.play(this.props.tracks[rand(this.props.tracks.length)].id);
       } else if (cmd === "prev") {
         if (index !== 0) {
           this.props.songMovement(this.props.queue[index - 1]);
