@@ -116,7 +116,7 @@ export default class Genre extends React.Component {
           }
         }
         if (this.state.autoplay) {
-          if (Math.floor(this.state.currentTime) > 31 + rand(10)) {
+          if (Math.floor(this.state.currentTime) === this.state.totalTime) {
             Napster.player.play(this.state.tracks[rand(this.state.tracks.length)].id);
           }
         }
