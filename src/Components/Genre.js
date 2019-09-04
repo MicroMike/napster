@@ -41,7 +41,7 @@ export default class Genre extends React.Component {
     AccountCall.getAccount(this.props.token)
       .then(account => {
         console.log(account.isCurrentSubscriptionPayable)
-        this.setState({ del: !account.isCurrentSubscriptionPayable });
+        this.setState({ del: account.subscription.state === "EXPIRED" || account.subscription.isSuspended });
       })
   }
 
