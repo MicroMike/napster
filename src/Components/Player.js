@@ -47,6 +47,7 @@ export default class Player extends React.Component {
         const shuffledQueue = [...trackList].sort(() => Math.random() - 0.5);
         this.props.isShuffled(true);
         this.props.updateQueue(shuffledQueue);
+        this.props.trackAutoplay(true);
       } else {
         this.props.isShuffled(false);
         this.props.updateQueue(this.props.queueHolder);
